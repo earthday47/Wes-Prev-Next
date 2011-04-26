@@ -1,0 +1,20 @@
+/* Styles for the previous next block */
+#block-wes-prev-next-prev-next {
+  margin: 0;
+}
+
+#block-wes-prev-next-prev-next .content ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+#block-wes-prev-next-prev-next .content ul li {
+  width: 280px;
+  float: left;
+}
+
+#block-wes-prev-next-prev-next .content ul li.previous-article {
+  float: right;
+  text-align: right;
+}

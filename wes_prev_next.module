@@ -1,0 +1,90 @@
+<?php
+/**
+ * @file
+ * This module displays a recent Tweet in a block, given a username.
+ */
+
+/**
+ * Implements hook_block_info().
+ */
+function wes_prev_next_block_info() {
+  $blocks['prev_next'] = array(
+    'info' => t('Wes Previous Next'),
+    'cache' => DRUPAL_CACHE_PER_PAGE,
+    'status' => TRUE,
+    'region' => 'content',
+    'visibility' => 1,
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_configure().
+ */
+/*function wes_prev_next_block_configure($delta = '') {
+  $form = array();
+  if ($delta == 'prev_next') {
+  }
+  return $form;
+}*/
+
+/**
+ * Implements hook_block_save().
+ */
+/*function wes_prev_next_block_save($delta = '', $edit = array()) {
+  if ($delta == 'prev_next') {
+  }
+}*/
+
+/**
+ * Implements hook_block_view().
+ */
+function wes_prev_next_block_view($delta = '') {
+  $block = array();
+  switch ($delta) {
+    case 'prev_next':
+      drupal_add_css(drupal_get_path('module', 'wes_prev_next') . '/wes-prev-next.css');
+      $path = explode('/', current_path());
+      $nid = $path[1];
+      $node = node_load($nid);
+      
+      // next node
+      $result = db_query("SELECT nid, title FROM {node} WHERE created > :created AND type = :type ORDER BY created asc", array(
+        ':created' => $node->created,
+        ':type' => $node->type,
+      ));
+      // array contains nid, title
+      $next_node = $result->fetchObject();
+      
+      // previous node
+      $result = db_query("SELECT nid, title FROM {node} WHERE created < :created AND type = :type ORDER BY created desc", array(
+        ':created' => $node->created,
+        ':type' => $node->type,
+      ));
+      // array contains nid, title
+      $previous_node = $result->fetchObject();
+      
+      $block['subject'] = '';
+      $block['content'] = _wes_prev_next_block_contents($next_node, $previous_node);
+
+      break;
+  }
+  return $block;
+}
+
+/**
+ * Custom block content function.
+ *
+ * @see wes_prev_next_block_view()
+ */
+function _wes_prev_next_block_contents($next, $previous) {
+  // format of next and previous:
+  // nid, title
+  $markup = array();
+  $markup['#markup'] = '<ul><li class="next-article">';
+  $markup['#markup'] .= l(t('< Next post<br />%next', array('%next' => $next->title)), 'node/' . $next->nid, array('html' => TRUE));
+  $markup['#markup'] .= '</li><li class="previous-article">';
+  $markup['#markup'] .= l(t('Previous post ><br />%prev', array('%prev' => $previous->title)), 'node/' . $previous->nid, array('html' => TRUE));
+  $markup['#markup'] .= '</li></ul>';
+  return $markup;
+}

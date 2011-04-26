@@ -1,0 +1,5 @@
+name = Previous Next Block
+description = "Displays previous and next links."
+core = 7.x
+package = Wes
+configure = admin/structure/block/manage/wes_prev_next/prev_next/configure
