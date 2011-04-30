@@ -77,14 +77,21 @@ function wes_prev_next_block_view($delta = '') {
  *
  * @see wes_prev_next_block_view()
  */
-function _wes_prev_next_block_contents($next, $previous) {
+function _wes_prev_next_block_contents($next = NULL, $previous = NULL) {
   // format of next and previous:
   // nid, title
   $markup = array();
-  $markup['#markup'] = '<ul><li class="next-article">';
-  $markup['#markup'] .= l(t('< Next post<br />%next', array('%next' => $next->title)), 'node/' . $next->nid, array('html' => TRUE));
-  $markup['#markup'] .= '</li><li class="previous-article">';
-  $markup['#markup'] .= l(t('Previous post ><br />%prev', array('%prev' => $previous->title)), 'node/' . $previous->nid, array('html' => TRUE));
-  $markup['#markup'] .= '</li></ul>';
+  $markup['#markup'] = '<ul>';
+  if ($next) {
+    $markup['#markup'] .='<li class="next-article">';
+    $markup['#markup'] .= l(t('< Next post<br />%next', array('%next' => $next->title)), 'node/' . $next->nid, array('html' => TRUE));
+    $markup['#markup'] .= '</li>';
+  }
+  if ($previous) {
+    $markup['#markup'] .= '<li class="previous-article">';
+    $markup['#markup'] .= l(t('Previous post ><br />%prev', array('%prev' => $previous->title)), 'node/' . $previous->nid, array('html' => TRUE));
+    $markup['#markup'] .= '</li>';
+  }
+  $markup['#markup'] .= '</ul>';
   return $markup;
 }
