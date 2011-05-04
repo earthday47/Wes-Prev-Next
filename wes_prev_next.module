@@ -84,12 +84,12 @@ function _wes_prev_next_block_contents($next = NULL, $previous = NULL) {
   $markup['#markup'] = '<ul>';
   if ($next) {
     $markup['#markup'] .='<li class="next-article">';
-    $markup['#markup'] .= l(t('< Next post<br />%next', array('%next' => $next->title)), 'node/' . $next->nid, array('html' => TRUE));
+    $markup['#markup'] .= l(t('< Next<br />%next', array('%next' => $next->title)), 'node/' . $next->nid, array('html' => TRUE));
     $markup['#markup'] .= '</li>';
   }
   if ($previous) {
     $markup['#markup'] .= '<li class="previous-article">';
-    $markup['#markup'] .= l(t('Previous post ><br />%prev', array('%prev' => $previous->title)), 'node/' . $previous->nid, array('html' => TRUE));
+    $markup['#markup'] .= l(t('Previous ><br />%prev', array('%prev' => $previous->title)), 'node/' . $previous->nid, array('html' => TRUE));
     $markup['#markup'] .= '</li>';
   }
   $markup['#markup'] .= '</ul>';
